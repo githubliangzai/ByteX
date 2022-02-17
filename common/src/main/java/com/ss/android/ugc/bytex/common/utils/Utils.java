@@ -189,20 +189,20 @@ public class Utils {
             result.append("not found");
         }
 
-        result.append("\nproject input:");
-        Stream<Location.FileLocation> projectLocations = context.getLocator().findLocation(relativePath, SearchScope.ORIGIN);
-        if (projectLocations != null) {
-            List<Location.FileLocation> locations = projectLocations.collect(Collectors.toList());
-            if (locations.isEmpty()) {
-                result.append("not found");
-            } else {
-                for (Location.FileLocation location : locations) {
-                    result.append("\n\t").append(location.getLocation());
-                }
-            }
-        } else {
-            result.append("not found");
-        }
+//        result.append("\nproject input:");
+//        Stream<Location.FileLocation> projectLocations = context.getLocator().findLocation(relativePath, SearchScope.ORIGIN);
+//        if (projectLocations != null) {
+//            List<Location.FileLocation> locations = projectLocations.collect(Collectors.toList());
+//            if (locations.isEmpty()) {
+//                result.append("not found");
+//            } else {
+//                for (Location.FileLocation location : locations) {
+//                    result.append("\n\t").append(location.getLocation());
+//                }
+//            }
+//        } else {
+//            result.append("not found");
+//        }
 
         result.append("\naar input:");
         Stream<Location.FileLocation> aarLocations = context.getLocator().findLocation(relativePath, SearchScope.ORIGIN_AAR);

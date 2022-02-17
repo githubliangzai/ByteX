@@ -32,7 +32,8 @@ if (properties.getProperty("ARTIFACT_GROUP") == null) {
 def pomGroupId = properties.getProperty("ARTIFACT_GROUP") == null ? "$upload_group" : properties.getProperty("ARTIFACT_GROUP")
 def pomArtifactId = properties.getProperty("ARTIFACT_NAME") == null ? "$project.name" : properties.getProperty("ARTIFACT_NAME")
 //此处特别写成upload_version，因为ARTIFACT_NAME是个ByteBus用的，ARTIFACT_GROUP和ARTIFACT_NAME共用
-def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
+//def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
+def pomVersion = "0.4.0-SNAPSHOT"
 def bintray_user = "$upload_user_name"
 def bintray_key = "$bintray_key"
 
@@ -62,6 +63,11 @@ if (isAndroid) {
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
+def releasesRepoUrl = rootProject.getProperties().get("releasesRepoUrl")
+def snapshotsRepoUrl = rootProject.getProperties().get("snapshotsRepoUrl")
+def nexusUserName = rootProject.getProperties().get("nexusUserName")
+def nexusPassword = rootProject.getProperties().get("nexusPassword")
+
 publishing {
     publications {
         if (isAndroid) {
@@ -85,6 +91,29 @@ publishing {
                 groupId pomGroupId
                 artifactId pomArtifactId
                 version pomVersion
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "releaseMaven"
+            url = releasesRepoUrl
+//            allowInsecureProtocol = true
+
+            credentials {
+                username nexusUserName
+                password nexusPassword
+            }
+        }
+
+        maven {
+            name = "snapshotMaven"
+            url = snapshotsRepoUrl
+//            allowInsecureProtocol = true
+
+            credentials {
+                username nexusUserName
+                password nexusPassword
             }
         }
     }
