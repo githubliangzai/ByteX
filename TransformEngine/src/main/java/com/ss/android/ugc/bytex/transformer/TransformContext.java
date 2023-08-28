@@ -1,5 +1,7 @@
 package com.ss.android.ugc.bytex.transformer;
 
+import static com.android.SdkConstants.FD_OUTPUTS;
+
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.gradle.AppExtension;
@@ -21,7 +23,6 @@ import com.ss.android.ugc.bytex.transformer.utils.Service;
 
 import org.gradle.api.Project;
 import org.gradle.api.internal.project.ProjectInternal;
-import org.gradle.internal.service.UnknownServiceException;
 import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
@@ -35,8 +36,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
-
-import static com.android.builder.model.AndroidProject.FD_OUTPUTS;
 
 public class TransformContext implements GradleEnv, ClassFinder {
     private TransformInvocation invocation;
@@ -257,7 +256,7 @@ public class TransformContext implements GradleEnv, ClassFinder {
         }
     }
 
-    public File getProguardMappingFile(){
+    public File getProguardMappingFile() {
         BaseVariant variant = TransformInvocationKt.getVariant(invocation);
         return new File(Joiner.on(File.separatorChar).join(
                 String.valueOf(project.getBuildDir()),

@@ -33,28 +33,28 @@ def pomGroupId = properties.getProperty("ARTIFACT_GROUP") == null ? "$upload_gro
 def pomArtifactId = properties.getProperty("ARTIFACT_NAME") == null ? "$project.name" : properties.getProperty("ARTIFACT_NAME")
 //此处特别写成upload_version，因为ARTIFACT_NAME是个ByteBus用的，ARTIFACT_GROUP和ARTIFACT_NAME共用
 //def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
-def pomVersion = "0.4.0-SNAPSHOT"
+def pomVersion = "0.4.1-SNAPSHOT"
 def bintray_user = "$upload_user_name"
 def bintray_key = "$bintray_key"
 
 def isAndroid = project.getPlugins().hasPlugin('com.android.application') || project.getPlugins().hasPlugin('com.android.library')
 if (isAndroid) {
-    task androidjavadocJar_(type: Jar, dependsOn: dokka) {
-        group = 'jar'
-        classifier = 'javadoc'
-        from "$buildDir/javadoc"
-    }
+//    task androidjavadocJar_(type: Jar, dependsOn: dokka) {
+//        group = 'jar'
+//        classifier = 'javadoc'
+//        from "$buildDir/javadoc"
+//    }
     task androidsourcesJar_(type: Jar) {
         group = 'jar'
         from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
     }
 } else {
-    task javadocJar_(type: Jar, dependsOn: dokka) {
-        group = 'jar'
-        classifier = 'javadoc'
-        from "$buildDir/javadoc"
-    }
+//    task javadocJar_(type: Jar, dependsOn: dokka) {
+//        group = 'jar'
+//        classifier = 'javadoc'
+//        from "$buildDir/javadoc"
+//    }
     task sourcesJar_(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource

@@ -154,6 +154,14 @@ public class ReferCheckMethodVisitor extends MethodVisitor {
             return Utils.getPackage(className).equals(Utils.getPackage(member.className())) ||
                     graph.get(this.className).inheritFrom(graph.get(member.className()));
         } else if (TypeUtil.isPrivate(member.access())) {
+            final int className$Index = className.indexOf("$");
+            final String outClassName = className$Index == -1 ? className : className.substring(0, className$Index);
+            final int memberClassName$Index = member.className().indexOf("$");
+            final String memberOutClassName = memberClassName$Index == -1 ? member.className() : member.className().substring(0, memberClassName$Index);
+            if (outClassName.equals(memberOutClassName)) {
+                // 匿名内部类可以访问外部类的私有成员
+                return true;
+            }
             return false;
         } else {
             //package

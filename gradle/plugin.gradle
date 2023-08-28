@@ -7,12 +7,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly gradleApi()
     compileOnly "com.android.tools.build:gradle:$gradle_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile project(':common')
-    compile project(':PluginConfigProcessor')
-    kapt project(':PluginConfigProcessor')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation project(':common')
 }
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "11"
+targetCompatibility = "11"
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+}
 
 apply from: rootProject.file('gradle/publish.gradle')

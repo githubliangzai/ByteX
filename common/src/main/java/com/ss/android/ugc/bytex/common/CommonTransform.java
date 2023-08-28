@@ -6,7 +6,6 @@ import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.api.variant.VariantInfo;
-import com.android.build.gradle.internal.scope.VariantScope;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -62,7 +61,7 @@ public abstract class CommonTransform<X extends BaseContext> extends Transform {
     }
 
     @Nullable
-    private VariantScope getApplyingVariantScope() {
+    private Object getApplyingVariantScope() {
         return applyingVariantName == null ? null : ProjectKt.findVariantScope(context.project, applyingVariantName);
     }
 
@@ -84,7 +83,7 @@ public abstract class CommonTransform<X extends BaseContext> extends Transform {
     @Override
     public Set<? super QualifiedContent.Scope> getScopes() {
         Set<? super QualifiedContent.Scope> result = ImmutableSet.of();
-        VariantScope variantScope = getApplyingVariantScope();
+        Object variantScope = getApplyingVariantScope();
         for (TransformConfiguration config : getConfigurations()) {
             Set<? super QualifiedContent.Scope> scopes = config.getScopes(variantScope);
             if (!result.containsAll(scopes)) {
@@ -115,7 +114,7 @@ public abstract class CommonTransform<X extends BaseContext> extends Transform {
     @Override
     public Set<? super QualifiedContent.Scope> getReferencedScopes() {
         Set<? super QualifiedContent.Scope> result = super.getReferencedScopes();
-        VariantScope variantScope = getApplyingVariantScope();
+        Object variantScope = getApplyingVariantScope();
         for (TransformConfiguration config : getConfigurations()) {
             Set<? super QualifiedContent.Scope> referencedScopes = config.getReferencedScopes(variantScope);
             if (!result.containsAll(referencedScopes)) {

@@ -6,7 +6,6 @@ import com.ss.android.ugc.bytex.common.flow.TransformFlow;
 import com.ss.android.ugc.bytex.common.flow.main.MainTransformFlow;
 import com.ss.android.ugc.bytex.common.utils.Utils;
 import com.ss.android.ugc.bytex.common.visitor.ClassVisitorChain;
-import com.ss.android.ugc.bytex.pluginconfig.anno.PluginConfig;
 import com.ss.android.ugc.bytex.refercheck.log.ErrorLogGenerator;
 import com.ss.android.ugc.bytex.refercheck.log.PinpointProblemAnalyzer;
 import com.ss.android.ugc.bytex.refercheck.visitor.ReferCheckClassVisitor;
@@ -17,7 +16,7 @@ import org.gradle.api.Project;
 
 import javax.annotation.Nonnull;
 
-@PluginConfig("bytex.refer_check")
+//@PluginConfig("bytex.refer_check")
 public class ReferCheckPlugin extends CommonPlugin<ReferCheckExtension, ReferCheckContext> {
 
     @Override

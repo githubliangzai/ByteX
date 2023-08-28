@@ -4,11 +4,24 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly gradleApi()
     compileOnly "com.android.tools.build:gradle:$gradle_version"
-    compile "com.google.guava:guava:$guava_version"
-    testCompile 'com.squareup.okio:okio:1.14.0'
-    compile "io.reactivex.rxjava2:rxjava:2.2.6"
-    compile project(':GradleEnvApi')
-    compile project(':GradleToolKit')
+    compileOnly "com.android.tools:annotations:31.1.1"
+    compileOnly "com.android.tools:common:31.1.1"
+    compileOnly "com.android.tools:repository:31.1.1"
+    api "com.google.guava:guava:$guava_version"
+    api "com.google.code.gson:gson:2.8.5"
+    api "org.ow2.asm:asm:$asm_version"
+    api "org.ow2.asm:asm-tree:$asm_version"
+    api "org.ow2.asm:asm-util:$asm_version"
+    api "org.ow2.asm:asm-analysis:$asm_version"
+    api "org.ow2.asm:asm-commons:$asm_version"
+    api "dom4j:dom4j:1.6.1"
+    api "commons-codec:commons-codec:1.15"
+    api "commons-io:commons-io:2.8.0"
+    api "io.reactivex.rxjava2:rxjava:2.2.6"
+    api project(':GradleEnvApi')
+    api project(':GradleToolKit')
+
+    testImplementation 'com.squareup.okio:okio:1.14.0'
 }
 
 apply from: rootProject.file('gradle/publish.gradle')

@@ -4,11 +4,9 @@ import com.android.annotations.NonNull;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.SecondaryFile;
 import com.android.build.gradle.internal.pipeline.TransformManager;
-import com.android.build.gradle.internal.scope.VariantScope;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.ss.android.ugc.bytex.common.utils.ReflectionUtils;
 
 import java.io.File;
 import java.util.Collection;
@@ -50,15 +48,17 @@ public interface TransformConfiguration {
      * Returns the scope(s) of the Transform. This indicates which scopes the handle consumes.
      */
     @NonNull
-    default Set<? super QualifiedContent.Scope> getScopes(@Nullable VariantScope variantScope) {
+    default Set<? super QualifiedContent.Scope> getScopes(@Nullable Object variantScope) {
         try {
-            if (variantScope == null || this.getClass().getMethod("getScopes").getDeclaringClass() != TransformConfiguration.class) {
+            // FIXME
+            if (/*variantScope == null || */this.getClass().getMethod("getScopes").getDeclaringClass() != TransformConfiguration.class) {
                 return getScopes();
             }
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        if (variantScope.consumesFeatureJars() && consumesFeatureJars()) {
+        // FIXME
+        if (false && consumesFeatureJars()) {
             return TransformManager.SCOPE_FULL_WITH_FEATURES;
         } else {
             return TransformManager.SCOPE_FULL_PROJECT;
@@ -72,13 +72,8 @@ public interface TransformConfiguration {
     @Deprecated
     default Set<? super QualifiedContent.Scope> getScopes() {
         if (consumesFeatureJars()) {
-            try {
-                return ReflectionUtils.getField(TransformManager.class, TransformManager.class, "SCOPE_FULL_WITH_FEATURES");
-            } catch (Exception ignored) {
-            }
+            return TransformManager.SCOPE_FULL_WITH_FEATURES;
         }
-        // 需要gradle 3.2 开始支持
-        // return TransformManager.SCOPE_FULL_WITH_FEATURES
         return TransformManager.SCOPE_FULL_PROJECT;
     }
 
@@ -91,9 +86,10 @@ public interface TransformConfiguration {
      * <p>The default implementation returns an empty Set.
      */
     @NonNull
-    default Set<? super QualifiedContent.Scope> getReferencedScopes(@Nullable VariantScope variantScope) {
+    default Set<? super QualifiedContent.Scope> getReferencedScopes(@Nullable Object variantScope) {
         try {
-            if (variantScope == null || this.getClass().getMethod("getReferencedScopes").getDeclaringClass() != TransformConfiguration.class) {
+            // FIXME
+            if (/*variantScope == null || */this.getClass().getMethod("getReferencedScopes").getDeclaringClass() != TransformConfiguration.class) {
                 return getReferencedScopes();
             }
         } catch (NoSuchMethodException e) {
