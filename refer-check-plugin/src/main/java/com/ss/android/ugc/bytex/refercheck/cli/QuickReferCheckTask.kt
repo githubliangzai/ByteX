@@ -17,12 +17,13 @@ import com.ss.android.ugc.bytex.transformer.TransformOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.internal.project.ProjectInternal
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.workers.WorkerExecutor
 import java.util.LinkedList
 import javax.inject.Inject
 
-open class QuickReferCheckTask @Inject constructor(val pj: Project, val android: AppExtension, val extension: ReferCheckExtension, val variant: BaseVariant) :
+open class QuickReferCheckTask @Inject constructor(@Internal val pj: Project, @Internal val android: AppExtension, @Internal val extension: ReferCheckExtension, @Internal val variant: BaseVariant) :
     DefaultTask(), /*HookContext*/ Context {
 
 //    override val hookTask: Task
@@ -116,9 +117,12 @@ open class QuickReferCheckTask @Inject constructor(val pj: Project, val android:
         }
     }
 
+    @Internal
     override fun getWorkerExecutor(): WorkerExecutor = (pj as ProjectInternal).services.get<WorkerExecutor>(WorkerExecutor::class.java)
 
+    @Internal
     override fun getProjectName(): String = pj.name
 
+    @Internal
     override fun getVariantName(): String = variant.name
 }
