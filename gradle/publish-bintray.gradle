@@ -33,7 +33,7 @@ def pomGroupId = properties.getProperty("ARTIFACT_GROUP") == null ? "$upload_gro
 def pomArtifactId = properties.getProperty("ARTIFACT_NAME") == null ? "$project.name" : properties.getProperty("ARTIFACT_NAME")
 //此处特别写成upload_version，因为ARTIFACT_NAME是个ByteBus用的，ARTIFACT_GROUP和ARTIFACT_NAME共用
 //def pomVersion = properties.getProperty("upload_version") == null ? "$upload_version" : properties.getProperty("upload_version")
-def pomVersion = "0.4.1-SNAPSHOT"
+def pomVersion = "0.4.0-pp"
 def bintray_user = "$upload_user_name"
 def bintray_key = "$bintray_key"
 
@@ -63,10 +63,22 @@ if (isAndroid) {
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-def releasesRepoUrl = rootProject.getProperties().get("releasesRepoUrl")
-def snapshotsRepoUrl = rootProject.getProperties().get("snapshotsRepoUrl")
-def nexusUserName = rootProject.getProperties().get("nexusUserName")
-def nexusPassword = rootProject.getProperties().get("nexusPassword")
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    println "Found secret props file, loading props"
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+} else {
+    println "No props file, loading env vars"
+    ext["nexusUserName"] = System.getenv('NEXUS_USERNAME')
+    ext["nexusPassword"] = System.getenv('NEXUS_PASSWORD')
+    ext["releasesRepoUrl"] = System.getenv('RELEASES_REPO_URL')
+    ext["snapshotsRepoUrl"] = System.getenv('SNAPSHOTS_REPO_URL')
+}
+println "releasesRepoUrl:${releasesRepoUrl}, snapshotsRepoUrl:${snapshotsRepoUrl}"
 
 publishing {
     publications {
@@ -98,7 +110,7 @@ publishing {
         maven {
             name = "releaseMaven"
             url = releasesRepoUrl
-//            allowInsecureProtocol = true
+            allowInsecureProtocol = true
 
             credentials {
                 username nexusUserName
@@ -109,7 +121,7 @@ publishing {
         maven {
             name = "snapshotMaven"
             url = snapshotsRepoUrl
-//            allowInsecureProtocol = true
+            allowInsecureProtocol = true
 
             credentials {
                 username nexusUserName
