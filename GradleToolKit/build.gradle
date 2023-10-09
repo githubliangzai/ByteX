@@ -14,7 +14,7 @@ dependencies {
     api project(':GradleEnvApi')
 //    api("com.bytedance.android.build:gradle-compat-api:$gradle_compat_version")
 //    api("com.bytedance.android.build:gradle-compat-impl:$gradle_compat_version")
-    api "com.didiglobal.booster:booster-android-gradle-api:4.16.2"
+    api "com.didiglobal.booster:booster-android-gradle-api:4.16.3"
 }
 sourceCompatibility = "11"
 targetCompatibility = "11"
